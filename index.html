@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Building Data Product Assignment</title>
+  <meta charset="utf-8">
+  <meta name="description" content="Building Data Product Assignment">
+  <meta name="author" content="Suresh Joshi">
+  <meta name="generator" content="slidify" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/default.css" media="all" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/phone.css" 
+    media="only screen and (max-device-width: 480px)" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/slidify.css" >
+  <link rel="stylesheet" href="libraries/highlighters/highlight.js/css/tomorrow.css" />
+  <base target="_blank"> <!-- This amazingness opens all links in a new tab. -->  
+  
+  <!-- Grab CDN jQuery, fall back to local if offline -->
+  <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.min.js"></script>
+  <script>window.jQuery || document.write('<script src="libraries/widgets/quiz/js/jquery.js"><\/script>')</script> 
+  <script data-main="libraries/frameworks/io2012/js/slides" 
+    src="libraries/frameworks/io2012/js/require-1.0.8.min.js">
+  </script>
+  
+  
+
+</head>
+<body style="opacity: 0">
+  <slides class="layout-widescreen">
+    
+    <!-- LOGO SLIDE -->
+        <slide class="title-slide segue nobackground">
+  <hgroup class="auto-fadein">
+    <h1>Building Data Product Assignment</h1>
+    <h2>Forecast sales data using Linear Regression.</h2>
+    <p>Suresh Joshi<br/>Data Engineer</p>
+  </hgroup>
+  <article></article>  
+</slide>
+    
+
+    <!-- SLIDES -->
+    <slide class="" id="slide-1" style="background:;">
+  <hgroup>
+    <h2>Introduction</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>This presentation is produced using slidfy app. In this project I am using synthetic sale data.
+The data set consists of yearly sales of 4 ficticious companies (named Company 1, Company 2, Company 3 and Company 4).
+We fit the linear regression model using year and company as covariate and sales as response variable.</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-2" style="background:;">
+  <hgroup>
+    <h2>Data Summary</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">str(sales_data)
+</code></pre>
+
+<pre><code>## &#39;data.frame&#39;:    24 obs. of  3 variables:
+##  $ year   : num  2010 2011 2012 2013 2014 ...
+##  $ company: Factor w/ 4 levels &quot;company1&quot;,&quot;company2&quot;,..: 1 1 1 1 1 1 2 2 2 2 ...
+##  $ sales  : num  366 756 2554 4504 3106 ...
+</code></pre>
+
+<pre><code class="r">summary(sales_data)
+</code></pre>
+
+<pre><code>##       year          company      sales        
+##  Min.   :2010   company1:6   Min.   :   26.0  
+##  1st Qu.:2011   company2:6   1st Qu.:  185.5  
+##  Median :2012   company3:6   Median :  344.5  
+##  Mean   :2012   company4:6   Mean   : 3886.7  
+##  3rd Qu.:2014                3rd Qu.: 3455.5  
+##  Max.   :2015                Max.   :18785.0
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Linear Regression Model</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">model &lt;- glm(sales ~ year * factor(company), data = sales_data)
+</code></pre>
+
+<!-- html table generated in R 3.2.0 by xtable 1.7-4 package -->
+
+<!-- Sun Nov 22 01:51:34 2015 -->
+
+<table border=1>
+<tr> <th>  </th> <th> Estimate </th> <th> Std. Error </th> <th> t value </th> <th> Pr(&gt;|t|) </th>  </tr>
+  <tr> <td align="right"> (Intercept) </td> <td align="right"> -1085052.6667 </td> <td align="right"> 879262.6364 </td> <td align="right"> -1.23 </td> <td align="right"> 0.2350 </td> </tr>
+  <tr> <td align="right"> year </td> <td align="right"> 540.2857 </td> <td align="right"> 436.9005 </td> <td align="right"> 1.24 </td> <td align="right"> 0.2341 </td> </tr>
+  <tr> <td align="right"> factor(company)company2 </td> <td align="right"> -5346294.6667 </td> <td align="right"> 1243465.1453 </td> <td align="right"> -4.30 </td> <td align="right"> 0.0006 </td> </tr>
+  <tr> <td align="right"> factor(company)company3 </td> <td align="right"> 964059.6667 </td> <td align="right"> 1243465.1453 </td> <td align="right"> 0.78 </td> <td align="right"> 0.4495 </td> </tr>
+  <tr> <td align="right"> factor(company)company4 </td> <td align="right"> 1003610.0000 </td> <td align="right"> 1243465.1453 </td> <td align="right"> 0.81 </td> <td align="right"> 0.4314 </td> </tr>
+  <tr> <td align="right"> year:factor(company)company2 </td> <td align="right"> 2661.8571 </td> <td align="right"> 617.8707 </td> <td align="right"> 4.31 </td> <td align="right"> 0.0005 </td> </tr>
+  <tr> <td align="right"> year:factor(company)company3 </td> <td align="right"> -480.0857 </td> <td align="right"> 617.8707 </td> <td align="right"> -0.78 </td> <td align="right"> 0.4485 </td> </tr>
+  <tr> <td align="right"> year:factor(company)company4 </td> <td align="right"> -499.7429 </td> <td align="right"> 617.8707 </td> <td align="right"> -0.81 </td> <td align="right"> 0.4305 </td> </tr>
+   </table>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Plot of sales data.</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>Note: dotted line indicates predicted data.
+<img src="assets/fig/unnamed-chunk-6-1.png" title="plot of chunk unnamed-chunk-6" alt="plot of chunk unnamed-chunk-6" style="display: block; margin: auto auto auto 0;" /></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+    <slide class="backdrop"></slide>
+  </slides>
+  <div class="pagination pagination-small" id='io2012-ptoc' style="display:none;">
+    <ul>
+      <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=1 title='Introduction'>
+         1
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=2 title='Data Summary'>
+         2
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=3 title='Linear Regression Model'>
+         3
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=4 title='Plot of sales data.'>
+         4
+      </a>
+    </li>
+  </ul>
+  </div>  <!--[if IE]>
+    <script 
+      src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js">  
+    </script>
+    <script>CFInstall.check({mode: 'overlay'});</script>
+  <![endif]-->
+</body>
+  <!-- Load Javascripts for Widgets -->
+  
+  <!-- LOAD HIGHLIGHTER JS FILES -->
+  <script src="libraries/highlighters/highlight.js/highlight.pack.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  <!-- DONE LOADING HIGHLIGHTER JS FILES -->
+   
+  </html>
